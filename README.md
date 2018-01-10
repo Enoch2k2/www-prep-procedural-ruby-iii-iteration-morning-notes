@@ -140,3 +140,71 @@ end
 
 new_hash is now {age: 2, age_3: 4}
 ```
+
+# Yields and Blocks
+
+
+### Blocks
+So blocks are basically a container of logic that is basically saying we belong to this part of your code.
+
+For example
+```
+array.each do |element|
+  # block of code that belongs to the .each iterator
+end
+
+def method_name
+  # block of code that belongs to your method
+end
+```
+
+In the example of the `.each` iterator, we have a `do` that starts our `block`. And an `end` that ends our block. We also have a `block variable |element|` that lives inside our block. But what kind of nerd sorcery gives the block variable a value? How does it work? It will all make sense if you continue reading.
+
+### Yield
+
+The yield key word is a way to take a value and pass it into a block of code via a `|block_variable|`. This is often used with collections.
+
+An example of this would look like:
+```
+def each(array)
+  i = 0 # creating a counter to keep track of what position in the array we are
+  while i < array.length # we are making sure that we are iterating through the array
+    yield array[i] # here we yield each element to the block
+    i += 1 # we make sure we increment our counter in order to go to the next elements through the iteration
+  end
+  array # to mimic the each iterator for arrays, we return the original array
+end
+```
+
+So `yield array[i]` is yielding each element to a block that we can do something with. So now that we have our method set up, how can we call this?
+```
+original_array = each(["bob", "mark", "john"]) do |name|
+  puts name
+end
+
+which logs:
+bob
+mark
+john
+
+original_array is now ["bob", "mark", "john"]
+```
+
+We call it like we do the `array.each` method by adding a code block to it. So the way that ruby will read this is:
+
+```
+creates the counter i and sets it to 0
+starts the while loop to iterate over the array
+yields array[i], which sets name in your do block |name| to the value of array[i]
+puts name, which is basically puts'ing the value of array[i]
+goes back into the while loop and increments the counter
+goes back up to the while loop and repeats the process until the while condition is false
+returns array
+```
+
+### Advice
+- don't take my word for it, experiment in the ruby repl.it website! https://repl.it/languages/ruby
+- try out the method i have given you in the repl.it, define it and call it with different arrays!
+- try out different logic in your code block when you call it
+- try modifying the original method to only yield when the counter is even or odd
+- in my experience, experimentation is the best teacher!
